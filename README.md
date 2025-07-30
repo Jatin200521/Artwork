@@ -16,10 +16,7 @@ A React + TypeScript application using PrimeReact to display a paginated list of
 
 ## 🌐 Live Demo
 
-🎯 [Click here to open the live app](https://artwork-apitable.netlify.app/)
-
-[![Live Demo](https://api.screenshotmachine.com/?key=demo&url=https://artwork-apitable.netlify.app/&dimension=1024x768)](https://artwork-apitable.netlify.app/)
-
+🎯  [Visit Live App](https://artwork-apitable.netlify.app/)
 
 ## 🛠️ Tech Stack
 
