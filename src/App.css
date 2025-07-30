@@ -1,0 +1,28 @@
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.custom-checkbox:hover {
+  border-color: #007bff !important;
+  background-color: #e6f0ff !important;
+}
+
+.selected-row {
+  background-color: #e6f0ff !important;
+}
+
+.p-datatable .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: #007bff;
+  background: #007bff;
+}
+
+.p-datatable .p-checkbox .p-checkbox-box:hover {
+  border-color: #007bff;
+}
