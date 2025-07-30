@@ -16,6 +16,7 @@ A React + TypeScript application using PrimeReact to display a paginated list of
 
 🎯  [Visit Live App](https://artwork-apitable.netlify.app/)
 
+
 ## 🛠️ Tech Stack
 
 - React + TypeScript
