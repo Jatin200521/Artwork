@@ -25,6 +25,9 @@ function App() {
   const [selectedRows, setSelectedRows] = useState<{ [key: number]: Artwork }>(
     {}
   );
+  const [selectInputVisible, setSelectInputVisible] = useState(false);
+  const [selectCount, setSelectCount] = useState("");
+  const [allArtworks, setAllArtworks] = useState<Artwork[]>([]);
 
   const fetchArtworks = useCallback(async (page: number) => {
     const res = await fetch(
@@ -33,6 +36,22 @@ function App() {
     const data = await res.json();
     setArtworks(data.data);
     setTotalRecords(data.pagination.total);
+  }, []);
+
+  const fetchAllArtworks = useCallback(async () => {
+    const collected: Artwork[] = [];
+    let page = 1;
+    const limit = 100;
+    while (collected.length < limit) {
+      const res = await fetch(
+        `https://api.artic.edu/api/v1/artworks?page=${page}`
+      );
+      const data = await res.json();
+      if (!data.data.length) break;
+      collected.push(...data.data);
+      page++;
+    }
+    setAllArtworks(collected);
   }, []);
 
   useEffect(() => {
@@ -53,6 +72,59 @@ function App() {
     setSelectedRows(updated);
   };
 
+  const toggleSelectInput = () => {
+    setSelectInputVisible((prev) => !prev);
+    if (!allArtworks.length) fetchAllArtworks();
+  };
+
+  const handleSelectSubmit = () => {
+    const count = parseInt(selectCount);
+    if (!isNaN(count) && allArtworks.length) {
+      const selected = { ...selectedRows };
+      allArtworks.slice(0, count).forEach((art) => {
+        selected[art.id] = art;
+      });
+      setSelectedRows(selected);
+    }
+    setSelectInputVisible(false);
+    setSelectCount("");
+  };
+
+  const headerTemplate = (
+    <div className="header-wrapper">
+      <Checkbox
+        inputId="selectAll"
+        onChange={(e) => {
+          const all = { ...selectedRows };
+          artworks.forEach((art) => {
+            if (e.checked) all[art.id] = art;
+            else delete all[art.id];
+          });
+          setSelectedRows(all);
+        }}
+        checked={
+          artworks.length > 0 && artworks.every((art) => selectedRows[art.id])
+        }
+      />
+      <i
+        className="pi pi-chevron-down down-icon"
+        onClick={toggleSelectInput}
+        style={{ cursor: "pointer", marginLeft: "3vmin" }}
+      />
+      {selectInputVisible && (
+        <div className="select-popup">
+          <input
+            type="number"
+            placeholder="Select rows..."
+            value={selectCount}
+            onChange={(e) => setSelectCount(e.target.value)}
+          />
+          <button onClick={handleSelectSubmit}>submit</button>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="container">
       <h1>Artworks</h1>
@@ -66,23 +138,7 @@ function App() {
         }
       >
         <Column
-          header={
-            <Checkbox
-              inputId="selectAll"
-              onChange={(e) => {
-                const all = { ...selectedRows };
-                artworks.forEach((art) => {
-                  if (e.checked) all[art.id] = art;
-                  else delete all[art.id];
-                });
-                setSelectedRows(all);
-              }}
-              checked={
-                artworks.length > 0 &&
-                artworks.every((art) => selectedRows[art.id])
-              }
-            />
-          }
+          header={headerTemplate}
           body={(row) => (
             <Checkbox
               inputId={`cb-${row.id}`}
@@ -92,6 +148,7 @@ function App() {
               className="custom-checkbox"
             />
           )}
+          style={{ width: "80px" }}
         />
         <Column field="title" header="Title" />
         <Column field="place_of_origin" header="Origin" />

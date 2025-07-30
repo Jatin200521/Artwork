@@ -26,3 +26,36 @@ h1 {
 .p-datatable .p-checkbox .p-checkbox-box:hover {
   border-color: #007bff;
 }
+
+.header-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-popup {
+  position: absolute;
+  top: 130%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.select-popup input {
+  width: 100px;
+  padding: 4px;
+  margin-bottom: 4px;
+}
+
+.select-popup button {
+  padding: 4px 8px;
+}
+
+.down-icon {
+  font-size: 1.2rem;
+  color: black;
+}
