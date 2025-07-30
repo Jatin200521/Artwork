@@ -1,2 +1,0 @@
-# Artwork
-Artwork
